@@ -1,64 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Резюме</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f4f4f4;
-        }
-        section {
-            background: white;
-            padding: 20px;
-            margin: 10px 0;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        img {
-            max-width: 200px;
-            border-radius: 200px;
-        }
-    </style>
-</head>
-<body>
+{% extends 'base.html' %}
 
-    <h1>Резюме</h1>
-    
-    <section id="image">
-        <h2>Зображення</h2>
-        <img src="{{ url_for('static', filename='images/images.jpg') }}" alt="Ваше зображення">
+{% block title %}Моє резюме{% endblock %} 
 
-    </section>
-    
-    <section id="about">
-        <h2>Про себе</h2>
-        <p>Ваш текст про себе тут.</p>
-    </section>
-    
-    <section id="education">
-        <h2>Освіта</h2>
-        <p>Ваш текст про освіту тут.</p>
-    </section>
-    
-    <section id="skills">
-        <h2>Навички</h2>
-        <p>Ваші навички тут.</p>
-    </section>
-    
-    <section id="experience">
-        <h2>Досвід роботи</h2>
-        <p>Ваш досвід роботи тут.</p>
-    </section>
+{% block header %}Моє резюме{% endblock %} 
 
-    <section id="projects">
-        <h2>Проекти</h2>
-        <p>Ваші проекти тут.</p>
-    </section>
+{% block content %}
+<section id="image" style="display: flex; align-items: center; margin: 20px 0;">
+    <img src="{{ url_for('static', filename='images/images.jpg') }}" alt="Ваше зображення" style="max-width: 150px; height: auto; border-radius: 150px; margin-right: 20px;">
+    <div>
+        <h2>АНГЕЛІНА КАШУБА</h2>
+        <p>+380000000000</p>
+        <p>anhelina.kashuba.22@pnu.edu.ua</p>
+    </div>
+</section>
 
 
-</body>
-</html>
+<section id="about">
+    <h2>Про себе</h2>
+    <p>Текст про мене</p>
+</section>
+
+<section id="education">
+    <h2>Освіта</h2>
+    <p>Навчаюсь в Прикарпатському національному університеті імені Василя Стефаника. Факультет математики та інформатики. Спеціальності 121 Інженерія програмного забезпечення.
+        3 курс, ІПЗ-32 </p>
+</section>
+
+<section id="skills">
+    <h2>Навички</h2>
+    <p>Мої навички</p>
+</section>
+
+<section id="experience">
+    <h2>Досвід роботи</h2>
+    <p>Немає досвіду роботи</p>
+</section>
+
+<section id="projects">
+    <h2>Проекти</h2>
+    <p>Мої проекти</p>
+</section>
+
+{% endblock %}
