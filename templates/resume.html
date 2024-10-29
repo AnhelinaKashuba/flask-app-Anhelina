@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Резюме</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        section {
+            background: white;
+            padding: 20px;
+            margin: 10px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        img {
+            max-width: 200px;
+            border-radius: 200px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Резюме</h1>
+    
+    <section id="image">
+        <h2>Зображення</h2>
+        <img src="{{ url_for('static', filename='images/images.jpg') }}" alt="Ваше зображення">
+
+    </section>
+    
+    <section id="about">
+        <h2>Про себе</h2>
+        <p>Ваш текст про себе тут.</p>
+    </section>
+    
+    <section id="education">
+        <h2>Освіта</h2>
+        <p>Ваш текст про освіту тут.</p>
+    </section>
+    
+    <section id="skills">
+        <h2>Навички</h2>
+        <p>Ваші навички тут.</p>
+    </section>
+    
+    <section id="experience">
+        <h2>Досвід роботи</h2>
+        <p>Ваш досвід роботи тут.</p>
+    </section>
+
+    <section id="projects">
+        <h2>Проекти</h2>
+        <p>Ваші проекти тут.</p>
+    </section>
+
+
+</body>
+</html>
