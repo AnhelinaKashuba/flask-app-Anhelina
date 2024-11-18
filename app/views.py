@@ -24,6 +24,6 @@ def greetings(name):
 
 @app.route("/admin")
 def admin():
-    to_url = url_for("greetings", name="Anhelina", age=19, _external=True)   
+    to_url = url_for("greetings", name="administrator", age=45, _external=True)   
     print(to_url)
     return redirect(to_url)
