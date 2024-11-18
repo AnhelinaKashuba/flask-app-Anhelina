@@ -12,9 +12,7 @@ def home():
 
     return render_template("home.html", agent=agent)
 
-#users
-
-@app.route("/hi/<string:name>")  
+@app.route("/users/hi/<string:name>")
 def greetings(name):
     name = name.upper()
     age = request.args.get("age", None, int)   
@@ -22,8 +20,8 @@ def greetings(name):
     return render_template("hi.html", 
                            name=name, age=age)
 
-@app.route("/admin")
+@app.route("/users/admin") 
 def admin():
-    to_url = url_for("greetings", name="Anhelina", age=19, _external=True)   
+    to_url = url_for("greetings", name="administrator", age=45, _external=True)   
     print(to_url)
     return redirect(to_url)

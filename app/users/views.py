@@ -1,4 +1,4 @@
-from . import post_bp
+from . import users_bp
 from flask import render_template, abort
 
 posts = [
@@ -7,11 +7,11 @@ posts = [
     {"id": 3, 'title': 'Flask and Jinja2', 'content': 'Jinja2 is powerful for templating.', 'author': 'Mike Lee'}
 ] 
 
-@post_bp.route('/') 
+@users_bp.route('/') 
 def get_posts():
     return render_template("posts.html", posts=posts)
 
-@post_bp.route('/<int:id>') 
+@users_bp.route('/<int:id>') 
 def detail_post(id):
     if id > 3:
         abort(404)

@@ -5,11 +5,11 @@
 {% block content %}
 
 <h1>Articles</h1>
-    
+   
 <ul>
     {% for post in posts%}
         <li> {{post["id"]}} -  
-            <a href="post/{{post['id']}}">{{post["title"]}}</a>
+            <a href="{{ url_for('users.detail_post', id=post['id']) }}">{{post["title"]}}</a>
         </li>
     {% endfor %}
 </ul>
