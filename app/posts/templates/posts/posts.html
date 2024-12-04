@@ -1,17 +1,36 @@
 {% extends 'base.html' %}
 
-{% block title %} POSTS {% endblock %}
+{% block title %}Posts{% endblock %}
+
+{% block css %}
+<!-- Підключення стилю для постів -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/posts.css') }}">
+{% endblock %}
 
 {% block content %}
-
-<h1>Articles</h1>
-    
-<ul>
-    {% for post in posts%}
-        <li> {{post["id"]}} -  
-            <a href="post/{{post['id']}}">{{post["title"]}}</a>
-        </li>
-    {% endfor %}
-</ul>
-
+    <h1 class="myclass">All Posts</h1>
+    <div class="container mt-5">
+        <div class="row">
+            {% for post in posts %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <!-- Картка поста -->
+                        <div class="card-body">
+                            <h5 class="card-title">{{ post.title | title }}</h5> <!-- Тайтл поста -->
+                            <h6 class="card-subtitle text-muted">Category: {{ post.category | title }}</h6> <!-- Категорія -->
+                            <p class="card-text">{{ post.content[:100] }}...</p> <!-- Перші 100 символів контенту -->
+                            <p class="text-muted">Author: {{ post.author }}</p> <!-- Автор поста -->
+                            <p class="text-muted">Published: {{ post.publication_date }}</p> <!-- Дата публікації -->
+                            <a href="{{ url_for('posts.detail_post', id=post.id) }}" class="btn btn-primary">Read More</a> <!-- Кнопка для перегляду поста -->
+                            
+                            <!-- Якщо пост неактивний, відображати мітку -->
+                            {% if not post.is_active %}
+                                <span class="badge bg-warning text-dark">Inactive</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}

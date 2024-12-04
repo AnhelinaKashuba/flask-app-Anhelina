@@ -7,12 +7,12 @@
 <body class="{{ theme }}-theme">
     <h1>Hello, {{ username }}!</h1>
     <p>Ви успішно увійшли.</p>
-    <a href="{{ url_for('user_name.logout') }}">Вийти</a>
+    <a href="{{ url_for('users.logout') }}">Вийти</a>
 
     <!-- Кнопки для зміни кольорової схеми -->
     <h3>Виберіть кольорову схему:</h3>
-    <a href="{{ url_for('user_name.set_theme', theme='light') }}" class="btn btn-light">Світла тема</a>
-    <a href="{{ url_for('user_name.set_theme', theme='dark') }}" class="btn btn-dark">Темна тема</a>
+    <a href="{{ url_for('users.set_theme', theme='light') }}" class="btn btn-light">Світла тема</a>
+    <a href="{{ url_for('users.set_theme', theme='dark') }}" class="btn btn-dark">Темна тема</a>
 
     <!-- Cookie Table -->
     <h3>Поточні куки:</h3>

@@ -1,0 +1,33 @@
+/* Кастомний стиль для постів */
+.post-card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 15px 0;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.post-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.post-title {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.post-content {
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.6;
+}
+
+.post-author {
+    font-style: italic;
+    color: #888;
+    margin-top: 15px;
+}

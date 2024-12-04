@@ -1,9 +1,10 @@
 from . import bp
 from flask import render_template, redirect, request, url_for, make_response, session, flash
-from datetime import timedelta
+from datetime import timedelta, datetime
 
 VALID_USERNAME = "anhelina"
 VALID_PASSWORD = "12345"
+
 
 @bp.route("/login", methods=['GET', 'POST'])
 def login():
@@ -14,7 +15,7 @@ def login():
         if username == VALID_USERNAME and password == VALID_PASSWORD:
             session["username"] = username
             flash("Успішний вхід!", "success")
-            return redirect(url_for("user_name.get_profile"))
+            return redirect(url_for("users.get_profile"))
         else:
             flash("Невірне ім'я користувача або пароль", "danger")
     return render_template("login.html")
@@ -24,7 +25,7 @@ def login():
 def get_profile():
     if "username" in session:
         username_value = session["username"]
-        theme = request.cookies.get('theme', 'light')  # Значення за замовчуванням — світла тема
+        theme = request.cookies.get('theme', 'light') 
         
         if request.method == 'POST':
             action = request.form.get('action')
@@ -57,7 +58,7 @@ def get_profile():
         return render_template("profile.html", username=username_value, cookies=cookies, theme=theme)
 
     flash("Ви повинні ввійти, щоб переглянути цю сторінку", "warning")
-    return redirect(url_for("user_name.login"))
+    return redirect(url_for("users.login"))
 
 
 
@@ -65,15 +66,15 @@ def get_profile():
 def logout():
     session.pop('username', None)
     session.pop('age', None)
-    return redirect(url_for('user_name.get_profile'))
+    return redirect(url_for('users.get_profile'))
 
 @bp.route('/set_theme/<theme>', methods=['GET'])
 def set_theme(theme):
     if theme not in ['light', 'dark']:
         flash("Невірна кольорова схема", "danger")
-        return redirect(url_for('user_name.get_profile'))
+        return redirect(url_for('users.get_profile'))
     
-    response = make_response(redirect(url_for('user_name.get_profile')))
-    response.set_cookie('theme', theme, max_age=30*24*60*60)  # Зберігаємо на 30 днів
+    response = make_response(redirect(url_for('users.get_profile')))
+    response.set_cookie('theme', theme, max_age=30*24*60*60)  
     flash(f"Кольорова схема '{theme}' вибрана!", "success")
     return response
