@@ -1,11 +1,57 @@
 {% extends 'base.html' %}
 
-{% block title %}Greeting Page{% endblock %}
+{% block title %}Profile Page{% endblock %}
 
 {% block content %}
 
-<h1>Hi, {{ username }}</h1>
+<body class="{{ theme }}-theme">
+    <h1>Hello, {{ username }}!</h1>
+    <p>Ви успішно увійшли.</p>
+    <a href="{{ url_for('user_name.logout') }}">Вийти</a>
 
-<a href="{{url_for('user_name.logout')}}">logout</a>
+    <!-- Кнопки для зміни кольорової схеми -->
+    <h3>Виберіть кольорову схему:</h3>
+    <a href="{{ url_for('user_name.set_theme', theme='light') }}" class="btn btn-light">Світла тема</a>
+    <a href="{{ url_for('user_name.set_theme', theme='dark') }}" class="btn btn-dark">Темна тема</a>
+
+    <!-- Cookie Table -->
+    <h3>Поточні куки:</h3>
+    <table class="table {{ theme }}-theme">
+        <thead>
+            <tr>
+                <th>Ключ</th>
+                <th>Значення</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for key, value in cookies.items() %}
+            <tr>
+                <td>{{ key }}</td>
+                <td>{{ value }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+
+
+<!-- Add/Delete Cookie Form -->
+<h3>Додати/Видалити куку:</h3>
+<form method="POST">
+    <div class="form-group">
+        <label for="key">Ключ</label>
+        <input type="text" id="key" name="key" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="value">Значення</label>
+        <input type="text" id="value" name="value" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="expiry">Термін дії (дні)</label>
+        <input type="number" id="expiry" name="expiry" class="form-control" value="1" min="1">
+    </div>
+    <button type="submit" name="action" value="add" class="btn btn-primary">Додати куку</button>
+    <button type="submit" name="action" value="delete" class="btn btn-danger">Видалити куку</button>
+</form>
 
 {% endblock %}

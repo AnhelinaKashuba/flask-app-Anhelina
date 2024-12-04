@@ -1,62 +1,79 @@
 from . import bp
 from flask import render_template, redirect, request, url_for, make_response, session, flash
-from datetime import timedelta, datetime
+from datetime import timedelta
 
-@bp.route("/profile")
+VALID_USERNAME = "anhelina"
+VALID_PASSWORD = "12345"
+
+@bp.route("/login", methods=['GET', 'POST'])
+def login():
+    if request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
+        
+        if username == VALID_USERNAME and password == VALID_PASSWORD:
+            session["username"] = username
+            flash("Успішний вхід!", "success")
+            return redirect(url_for("user_name.get_profile"))
+        else:
+            flash("Невірне ім'я користувача або пароль", "danger")
+    return render_template("login.html")
+
+
+@bp.route("/profile", methods=['GET', 'POST'])
 def get_profile():
     if "username" in session:
         username_value = session["username"]
-        return render_template("profile.html", username=username_value)
-    flash("Invalid: Session.", "danger")
+        theme = request.cookies.get('theme', 'light')  # Значення за замовчуванням — світла тема
+        
+        if request.method == 'POST':
+            action = request.form.get('action')
+            key = request.form.get('key')
+            value = request.form.get('value')
+            expiry = request.form.get('expiry')
+
+            if action == "add":
+                if not key or not value:
+                    flash("Ключ і значення обов'язкові.", "danger")
+                else:
+                    try:
+                        max_age = timedelta(days=int(expiry)) if expiry else timedelta(days=1)
+                        response = make_response(render_template("profile.html", username=username_value, cookies=request.cookies, theme=theme))
+                        response.set_cookie(key, value, max_age=max_age)
+                        flash(f"Кука '{key}' додана!", "success")
+                        return response
+                    except ValueError:
+                        flash("Термін дії куки має бути числом.", "danger")
+            elif action == "delete":
+                if not key:
+                    flash("Ключ обов'язковий для видалення.", "danger")
+                else:
+                    response = make_response(render_template("profile.html", username=username_value, cookies=request.cookies, theme=theme))
+                    response.set_cookie(key, '', expires=0)
+                    flash(f"Кука '{key}' видалена!", "success")
+                    return response
+
+        cookies = request.cookies
+        return render_template("profile.html", username=username_value, cookies=cookies, theme=theme)
+
+    flash("Ви повинні ввійти, щоб переглянути цю сторінку", "warning")
     return redirect(url_for("user_name.login"))
 
-@bp.route("/login",  methods=['GET', 'POST'])
-def login():
-    if request.method == "POST":
-        username = request.form["login"]
-        session["username"] = username
-        flash("Success: session added successfully.", "success")
-        return redirect(url_for("user_name.get_profile"))
-    return render_template("login.html")
+
 
 @bp.route('/logout')
 def logout():
-    # Видалення користувача із сесії
     session.pop('username', None)
     session.pop('age', None)
     return redirect(url_for('user_name.get_profile'))
 
-
-
-@bp.route("/hi/<string:name>")   #/hi/ivan?age=45
-def greetings(name):
-    name = name.upper()
-    age = request.args.get("age", None, int)   
-
-    return render_template("hi.html", 
-                           name=name, age=age)
-
-@bp.route("/admin")
-def admin():
-    to_url = url_for("user_name.greetings", name="administrator", age=45, _external=True)     # "http://localhost:8080/hi/administrator?age=45"
-    print(to_url)
-    return redirect(to_url)
-
-
-@bp.route('/set_cookie')
-def set_cookie():
-    response = make_response('Кука встановлена')
-    response.set_cookie('username', 'student', max_age=timedelta(seconds=60))
-    response.set_cookie('color', '', max_age=timedelta(seconds=60))
-    return response
-
-@bp.route('/get_cookie')
-def get_cookie():
-    username = request.cookies.get('username')
-    return f'Користувач: {username}'
-
-@bp.route('/delete_cookie')
-def delete_cookie():
-    response = make_response('Кука видалена')
-    response.set_cookie('username', '', expires=0) # response.set_cookie('username', '', max_age=0)
+@bp.route('/set_theme/<theme>', methods=['GET'])
+def set_theme(theme):
+    if theme not in ['light', 'dark']:
+        flash("Невірна кольорова схема", "danger")
+        return redirect(url_for('user_name.get_profile'))
+    
+    response = make_response(redirect(url_for('user_name.get_profile')))
+    response.set_cookie('theme', theme, max_age=30*24*60*60)  # Зберігаємо на 30 днів
+    flash(f"Кольорова схема '{theme}' вибрана!", "success")
     return response
