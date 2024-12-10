@@ -1,13 +1,24 @@
 {% extends 'base.html' %}
 
-{% block title %} POSTS {% endblock %}
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/posts.css') }}">
+{% endblock %}
 
 {% block content %}
+    <div class="container mt-5">
+        <h1>{{ post.title }}</h1>
+        <img src="{{ url_for('static', filename=post.image) }}" class="img-fluid mb-4" alt="{{ post.title }}">
+        <h6 class="text-muted">Category: {{ post.category | title }}</h6>
+        <p>{{ post.content }}</p>
+        <p class="text-muted">Author: {{ post.author }}</p>
+        <p class="text-muted">Published: {{ post.posted.strftime('%Y-%m-%d') }}</p>
 
-    <h1>Post № {{post["id"]}} - {{post["title"]}} </h1>
-
-    <p>{{ post.get('content') }}</p>
-
-    <a href="{{ url_for("posts.get_posts") }}">Return posts</a>
-
+        <a href="{{ url_for('posts.get_posts') }}" class="btn btn-secondary">Back to Posts</a>
+    </div>
+    <form action="{{ url_for('posts.delete_post', id=post.id) }}" method="POST">
+        <button type="submit" class="btn btn-danger">Delete Post</button>
+    </form>
+    
 {% endblock %}

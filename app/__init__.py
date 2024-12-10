@@ -1,23 +1,28 @@
 from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+from sqlalchemy.orm import DeclarativeBase
 
-# Створення factory-функції для Flask додатка
+class Base(DeclarativeBase):
+    pass
+
+db = SQLAlchemy(model_class=Base)
+migrate = Migrate()
+
 def create_app(config_name="config"):
-    # Ініціалізація Flask додатка
     app = Flask(__name__)
-    
-    # Завантаження конфігурацій з об'єкта, що передається
     app.config.from_object(config_name)
-    
-    # Реєстрація блюпринтів
+
+    db.init_app(app)
+    migrate.init_app(app, db)
+
     with app.app_context():
-        # Імпортуємо та реєструємо в'юшки та блюпринти
-        from . import views  # Імпортуємо основні в'юшки
-        from .posts import post_bp  # Імпортуємо блюпринт для постів
-        from .users import bp as user_bp  # Імпортуємо блюпринт для користувачів
-        
-        # Реєструємо блюпринти
+        from . import views
+        from app.posts.models import Post
+        from .posts import post_bp
+        from .users import bp as user_bp
         app.register_blueprint(post_bp)
         app.register_blueprint(user_bp, url_prefix="/users")
-    
-    # Повертаємо налаштований додаток
+
     return app
+
