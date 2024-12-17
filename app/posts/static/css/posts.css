@@ -31,3 +31,27 @@
     color: #888;
     margin-top: 15px;
 }
+
+
+.tags {
+    margin-top: 20px;
+}
+
+.tags .list-inline-item {
+    margin-right: 10px;
+}
+
+.tags .badge {
+    font-size: 14px;
+    padding: 5px 10px;
+    border-radius: 12px;
+}
+
+.tags .badge.bg-info {
+    background-color: #17a2b8;
+}
+
+.tags .badge.bg-info:hover {
+    background-color: #138496;
+}
+

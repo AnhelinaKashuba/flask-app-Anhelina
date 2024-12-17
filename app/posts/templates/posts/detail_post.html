@@ -3,7 +3,7 @@
 {% block title %}{{ post.title }}{% endblock %}
 
 {% block css %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/posts.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='static/css/style.css') }}">
 {% endblock %}
 
 {% block content %}
@@ -15,10 +15,25 @@
         <p class="text-muted">Author: {{ post.author }}</p>
         <p class="text-muted">Published: {{ post.posted.strftime('%Y-%m-%d') }}</p>
 
+        <!-- Display the tags -->
+        <div class="tags">
+            <strong>Tags:</strong>
+            {% if post.tags %}
+                <ul class="list-inline">
+                    {% for tag in post.tags %}
+                        <li class="list-inline-item">
+                            <span class="badge bg-info">{{ tag.name }}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No tags available.</p>
+            {% endif %}
+        </div>
+
         <a href="{{ url_for('posts.get_posts') }}" class="btn btn-secondary">Back to Posts</a>
     </div>
     <form action="{{ url_for('posts.delete_post', id=post.id) }}" method="POST">
         <button type="submit" class="btn btn-danger">Delete Post</button>
     </form>
-    
 {% endblock %}

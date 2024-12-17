@@ -13,7 +13,6 @@
             {% for post in posts %}
                 <div class="col-md-4 mb-4">
                     <div class="card">
-                        <!-- Відображення зображення поста -->
                         <img src="{{ url_for('static', filename=post.image if post.image else 'images/default.png') }}" 
                         class="card-img-top" 
                         alt="Image for {{ post.title }}">
@@ -22,7 +21,7 @@
                             <h5 class="card-title">{{ post.title | title }}</h5>
                             <h6 class="card-subtitle text-muted">Category: {{ post.category | title }}</h6>
                             <p class="card-text">{{ post.content[:100] }}...</p>
-                            <p class="text-muted">Author: {{ post.author }}</p>
+                            <p class="text-muted">Author: {{  post.user.username }}</p>
                             <p class="text-muted">Published: {{ post.posted.strftime('%Y-%m-%d') }}</p>
                             <a href="{{ url_for('posts.detail_post', id=post.id) }}" class="btn btn-primary">Read More</a>
 
